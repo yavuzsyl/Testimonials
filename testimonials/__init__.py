@@ -19,4 +19,3 @@ from testimonials.models import Testimonial
 db.create_all()
 import testimonials.routes
 
-# LGcKcqA4DakCcCPRcXrj
