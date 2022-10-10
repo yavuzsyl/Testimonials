@@ -2,8 +2,10 @@
 https://github.com/CalebCurry/flask-notes
 https://github.com/CalebCurry/testimionials
 """
+from turtle import title
 from testimonials import app
-from flask import render_template, abort
+from flask import render_template, abort, jsonify
+from testimonials.models import Testimonial
 
 testimonial_list = [
     {
@@ -21,7 +23,7 @@ testimonial_list = [
         'name': 'Connor3',
         'message': 'nice'
     },
-     {
+    {
         'id': 13,
         'name': 'Connor4',
         'message': 'nice'
@@ -32,6 +34,7 @@ testimonial_list = [
 @app.errorhandler(404)
 def page_not_forund(e):
     return render_template('404.html'), 404
+
 
 @app.route('/')
 @app.route('/testimonials')
@@ -45,7 +48,9 @@ def get_testimonial(id):
         if testimonial.get('id') == int(id):
             return render_template('testimonial.html', testimonial=testimonial)
         abort(404)
-        
-# @app.route('/api/testimonials')
-# def testimonials():
-#     return {'testimonails': ['great', 'its ok', 'fantastic', 'noice']}
+
+
+@app.route('/api/testimonials')
+def get_testimonials():
+    testimonials = Testimonial.query.all()
+    return jsonify({'testimonials': testimonials})
