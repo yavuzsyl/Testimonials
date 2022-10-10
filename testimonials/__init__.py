@@ -17,9 +17,6 @@ db = SQLAlchemy(app)
 from testimonials.models import Testimonial
 
 db.create_all()
-testimonial = Testimonial(name="alkiv", testimonial="selam")
-db.session.add(testimonial)
-db.session.commit()
 import testimonials.routes
 
 # LGcKcqA4DakCcCPRcXrj
