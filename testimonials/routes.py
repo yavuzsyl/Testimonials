@@ -71,4 +71,28 @@ def add_testimonial():
     testimonial = Testimonial(name=data.get('name'), testimonial=data.get('testimonial'))
     db.session.add(testimonial)
     db.session.commit()
-    return testimonial.id
+    return jsonify(testimonial.id)
+
+
+@app.route('/api/testimonials', methods=['PUT'])
+def update_testimonial(id):
+    testimonial = Testimonial.query.get(id)
+    if not testimonial:
+        return {'error': 'testimonial does not exist'}, 400
+    data = request.get_json()
+    testimonial.name = data.get('name')
+    testimonial.testimonial = data.get('testimonial')
+    db.session.commit()
+    return jsonify(testimonial)
+
+
+@app.route('/api/testimonials/<id>', methods=['DELETE'])
+def delete_testimonial(id):
+    testimonial = Testimonial.query.get(id)
+
+    if not testimonial:
+        return {'error': 'testimonial does not exist'}, 400
+
+    db.session.delete(testimonial)
+    db.session.commit()
+    return {}
